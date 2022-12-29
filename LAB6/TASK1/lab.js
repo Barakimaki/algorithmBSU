@@ -44,5 +44,25 @@ let kmpSearch = (str, substr) => {
     return -1
 }
 
-console.log(kmpSearch('ABDFSSGAERT', 'SGA'))
+let bruteSearch = (str, substr) => {
+    for (let i = 0; i <= str.length - substr.length; i++)
+    {
+        let success = true;
+        for (let j = 0; j < substr.length; j++)
+        {
+            if (str[i + j] !== substr[j])
+            {
+                success = false
+            }
+        }
+        if (success) return i;
+    }
+    return -1;
+}
+
+let str = 'AGSDHJITREFFADSCADCSEQ'
+let substr = 'HJIT'
+
+console.log(kmpSearch(str, substr))
+console.log(bruteSearch(str, substr))
 
