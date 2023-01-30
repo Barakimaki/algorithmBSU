@@ -50,10 +50,13 @@ function startLife(){
 			if (mas[fpp(i)+1][fpp(j)+1]===1) neighbors++;
 			if (mas[fpp(i)+1][fpm(j)-1]===1) neighbors++;
 			if (mas[fpm(i)-1][fpm(j)-1]===1) neighbors++;
-			if((neighbors===2 || neighbors===3) && mas[i][j]===1) mas2[i][j] = 1
-			if(neighbors > 3) mas2[i][j]=0
-			if(neighbors < 2) mas2[i][j]=0
-			if(neighbors===3 && mas[i][j]===0) mas2[i][j] = 1
+			if((neighbors===2 || neighbors===3) && mas[i][j]===1){
+				mas2[i][j] = 1
+			}else if(neighbors===3 && mas[i][j]===0) {
+				mas2[i][j] = 1
+			} else {
+				mas2[i][j] = 0
+			}
 		}
 	}
 	mas = mas2;
