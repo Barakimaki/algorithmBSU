@@ -271,21 +271,21 @@ let adjList2 = {
 }
 
 
-// let myGraph = new Graph(adjList1);
-//
-// console.log(myGraph);
-//
-// console.log(myGraph.greedyColoring())
-// console.log(myGraph.stringMatrixAdj())
-// console.log(myGraph.matrixColoring())
+let myGraph = new Graph(adjList1);
+
+console.log(myGraph);
+
+console.log(myGraph.greedyColoring())
+console.log(myGraph.stringMatrixAdj())
+console.log(myGraph.matrixColoring())
 
 
-let myGraph2 = new Graph(adjList2)
-console.log(myGraph2.stringMatrixAdjOriented())
-console.log('В ширину')
-console.log(myGraph2.breadthSearch(0))
-console.log('В глубину')
-console.log(myGraph2.deepSearch(0))
+// let myGraph2 = new Graph(adjList2)
+// console.log(myGraph2.stringMatrixAdjOriented())
+// console.log('В ширину')
+// console.log(myGraph2.breadthSearch(0))
+// console.log('В глубину')
+// console.log(myGraph2.deepSearch(0))
 
 // let bookGraph = new Graph(book)
 //
