@@ -11,6 +11,89 @@ class Graph {
         return this.adj;
     }
 
+    matrixIncidence(){
+        let graph = this.matrixAdj();
+        let list = this.listOfArch();
+        let res = [];
+        for(let i = 0; i < graph.length; i++){
+            res[i] = [];
+            for(let j = 0; j < list.length; j++){
+                if(list[j][0] === i){
+                    res[i].push(1);
+                } else res[i].push(0);
+            }
+        }
+        res.push(list)
+        return res;
+    }
+
+    matrixAdjOriented() {
+        let graph = this.getList();
+        let res = []
+        for (let i = 0; i < Object.keys(graph).length; i++) {
+            let line = [];
+            for (let j = 0; j < Object.keys(graph).length; j++) {
+                if(graph[i].endpoints.includes(j)){
+                    line.push(1);
+                }else line.push(0);
+            }
+            res.push(line)
+        }
+        return res
+
+    }
+    stringMatrixAdjOriented() {
+        let graph = this.matrixAdjOriented();
+        for (let i = 0; i < graph.length; i++) {
+            graph[i] = graph[i].join(',');
+        }
+        return graph.join('\n');
+
+    }
+
+    deepSearch(startVertex, callback = () => {
+    }) {
+        let visitedRoad = [startVertex];
+        let list = this.adj
+        function visitingVertex(vertex) {
+            callback(list[vertex]);
+            let neighboursVertex = list[vertex].endpoints;
+            for(let vert of neighboursVertex){
+                if (!visitedRoad.includes(vert)) {
+                    visitedRoad.push(vert);
+                    visitingVertex(vert)
+                }
+            }
+        }
+        visitingVertex(startVertex);
+        return visitedRoad;
+    }
+
+    breadthSearch(startVertex, callback = () => {
+    }) {
+        let queue = [startVertex];
+        let visitedRoad = [startVertex];
+        let list = this.adj
+
+        function visitingVertex(vertex) {
+            callback(list[vertex]);
+            let neighboursVertex = list[vertex].endpoints;
+            for (let vert of neighboursVertex) {
+                if (!visitedRoad.includes(vert)) {
+                    visitedRoad.push(vert);
+                    queue.push(vert);
+                }
+            }
+            while (queue.length) {
+                let currentVertex = queue.shift();
+                visitingVertex(currentVertex);
+            }
+        }
+
+        visitingVertex(startVertex);
+        return visitedRoad;
+    }
+
     matrixAdj() {
         let graph = this.getList();
         let res = []
@@ -156,45 +239,53 @@ let book = [
     [0, 2, 3, 4]
 ]
 
-// let adjList2 = {
-//     0: {
-//         content: {},
-//         endpoints: [1, 2, 3]
-//     },
-//     1: {
-//         content: {},
-//         endpoints: [2, 6]
-//     },
-//     2: {
-//         content: {},
-//         endpoints: [3]
-//     },
-//     3: {
-//         content: {},
-//         endpoints: [0, 4, 5]
-//     },
-//     4: {
-//         content: {},
-//         endpoints: [5]
-//     },
-//     5: {
-//         content: {},
-//         endpoints: [6]
-//     },
-//     6: {
-//         content: {},
-//         endpoints: [0]
-//     },
-// }
+let adjList2 = {
+    0: {
+        content: {},
+        endpoints: [1, 2, 3]
+    },
+    1: {
+        content: {},
+        endpoints: [2, 6]
+    },
+    2: {
+        content: {},
+        endpoints: [3]
+    },
+    3: {
+        content: {},
+        endpoints: [0, 4, 5]
+    },
+    4: {
+        content: {},
+        endpoints: [5]
+    },
+    5: {
+        content: {},
+        endpoints: [6]
+    },
+    6: {
+        content: {},
+        endpoints: [0]
+    },
+}
 
 
-let myGraph = new Graph(adjList1);
+// let myGraph = new Graph(adjList1);
+//
+// console.log(myGraph);
+//
+// console.log(myGraph.greedyColoring())
+// console.log(myGraph.stringMatrixAdj())
+// console.log(myGraph.matrixColoring())
 
-console.log(myGraph);
 
-console.log(myGraph.greedyColoring())
-console.log(myGraph.stringMatrixAdj())
-console.log(myGraph.matrixColoring())
+let myGraph2 = new Graph(adjList2)
+console.log(myGraph2.stringMatrixAdjOriented())
+console.log('В ширину')
+console.log(myGraph2.breadthSearch(0))
+console.log('В глубину')
+console.log(myGraph2.deepSearch(0))
 
 // let bookGraph = new Graph(book)
 //

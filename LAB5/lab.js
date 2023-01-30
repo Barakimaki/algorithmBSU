@@ -104,7 +104,7 @@ class Genetic {
             }
         }
         this.generation = this.generation + 1
-        if (this.generation === 500 || flag === 50) {
+        if (this.generation === 1000 || flag === 50) {
             console.log('Final')
             this.getPopulation()
         } else {
