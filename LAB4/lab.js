@@ -1,7 +1,7 @@
 const matrix =
     [
         [Infinity, 2, 10, 3, 15, 8],
-        [2, Infinity, 5, 4, Infinity , 6],
+        [2, Infinity, 5, 4, Infinity, 6],
         [10, 5, Infinity, 15, 12, 3],
         [5, Infinity, 15, Infinity, 5, 10],
         [15, 2, 12, 5, Infinity, Infinity],
@@ -9,41 +9,41 @@ const matrix =
     ];
 const matrix2 =
     [
-            [null, 10, 2, 3, 5, 7],
-            [10, null, 5, 10, 15 , 3],
-            [4, 5, null, 6, 5, 2],
-            [3, 10, 6, null, 7, 15],
-            [Infinity, 15, 5, 3, null, 2],
-            [7, 3, Infinity, 15, 2, null]
+        [null, 10, 2, 3, 5, 7],
+        [10, null, 5, 10, 15, 3],
+        [4, 5, null, 6, 5, 2],
+        [3, 10, 6, null, 7, 15],
+        [Infinity, 15, 5, 3, null, 2],
+        [7, 3, Infinity, 15, 2, null]
     ];
 
 function getFloydGraph(graph, n) {
-        let costGraph = [];
-        for (let i = 0; i < n; i++) {
-                costGraph[i] = [];
-                for (let j = 0; j < n; j++) {
-                        costGraph[i][j] = graph[i][j];
-                }
+    let costGraph = [];
+    for (let i = 0; i < n; i++) {
+        costGraph[i] = [];
+        for (let j = 0; j < n; j++) {
+            costGraph[i][j] = graph[i][j];
         }
+    }
 
-        for (let k = 0; k < n; k++) {
-                for (let i = 0; i < n; i++) {
-                        for (let j = 0; j < n; j++) {
-                                costGraph[i][j] = Math.min(costGraph[i][j], costGraph[i][k] + costGraph[k][j]);
-                        }
-                }
+    for (let k = 0; k < n; k++) {
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                costGraph[i][j] = Math.min(costGraph[i][j], costGraph[i][k] + costGraph[k][j]);
+            }
         }
-        for (let i = 0 ; i < n; i++){
-                costGraph[i][i] = Infinity
-        }
-        return costGraph;
+    }
+    for (let i = 0; i < n; i++) {
+        costGraph[i][i] = Infinity
+    }
+    return costGraph;
 }
 
 const transpose = matrix => matrix[0].map((col, i) => matrix.map(row => row[i]));
 
 const minusEl = graph => {
     let minRowEl = []
-    for(let i = 0; i < graph.length; i++){
+    for (let i = 0; i < graph.length; i++) {
         minRowEl[i] = Math.min(...graph[i])
     }
     return minRowEl
@@ -51,24 +51,25 @@ const minusEl = graph => {
 
 const divMin = (graph, minRowEl) => {
 
-    for(let i = 0; i < graph.length; i++){
-        for(let j = 0; j < graph[i].length; j++){
+    for (let i = 0; i < graph.length; i++) {
+        for (let j = 0; j < graph[i].length; j++) {
             graph[i][j] = graph[i][j] - minRowEl[i]
         }
     }
     return graph
 }
+
 function little(graph, result, count = 0) {
-    if(count === graph.length - 1) {
+    if (count === graph.length - 1) {
         for (let i = 0; i < graph.length; i++) {
             for (let j = 0; j < graph[i].length; j++) {
-                if(graph[i][j] !== Infinity){
+                if (graph[i][j] !== Infinity) {
                     result.push({i: i, j: j})
-                    for(let k = 0; k < result.length; k++){
-                        for (let r = k+1; r < result.length; r++){
-                            if(result[k].j === result[r].i){
-                                buffer = result[k+1]
-                                result[k+1] = result[r]
+                    for (let k = 0; k < result.length; k++) {
+                        for (let r = k + 1; r < result.length; r++) {
+                            if (result[k].j === result[r].i) {
+                                buffer = result[k + 1]
+                                result[k + 1] = result[r]
                                 result[r] = buffer
                             }
                         }
@@ -82,7 +83,7 @@ function little(graph, result, count = 0) {
     graph = divMin(graph, minusEl(graph))
     for (let i = 0; i < graph.length; i++) {
         for (let j = 0; j < graph[i].length; j++) {
-            if(isNaN(graph[i][j])){
+            if (isNaN(graph[i][j])) {
                 graph[i][j] = Infinity
             }
         }
@@ -92,7 +93,7 @@ function little(graph, result, count = 0) {
     graphT = divMin(graphT, minusEl(graphT))
     for (let i = 0; i < graphT.length; i++) {
         for (let j = 0; j < graphT[i].length; j++) {
-            if(isNaN(graphT[i][j])){
+            if (isNaN(graphT[i][j])) {
                 graphT[i][j] = Infinity
             }
         }
@@ -139,7 +140,7 @@ function little(graph, result, count = 0) {
     for (let i = 0; i < graph.length; i++) {
         newGraph[i] = []
         for (let j = 0; j < graph[i].length; j++) {
-            if(i === arch.i || j === arch.j){
+            if (i === arch.i || j === arch.j) {
                 newGraph[i][j] = Infinity
             } else {
                 newGraph[i][j] = graph[i][j]
@@ -151,13 +152,58 @@ function little(graph, result, count = 0) {
     result.push(arch)
     return little(newGraph, result, count)
 }
+
 const result = []
 
 const salesman = (graph) => {
+    let newGraph = []
+    for (let i = 0; i < graph.length; i++) {
+        newGraph[i] = []
+        for (let j = 0; j < graph[i].length; j++) {
+            if (i === j) {
+                newGraph[i][j] = Infinity
+            } else {
+                newGraph[i][j] = graph[i][j]
+            }
+        }
+    }
     let result = []
-    return little(graph, result)
+    return little(newGraph, result)
+}
+
+let salesmanWay = (salesman, matrix) => {
+    let long = 0
+    let way = []
+    for (let k = 0; k < salesman.length; k++) {
+        way[k] = {}
+        long += matrix[salesman[k].i][salesman[k].j]
+        way[k].i = salesman[k].i+1
+        way[k].j = salesman[k].j+1
+        way[k].long = matrix[salesman[k].i][salesman[k].j]
+    }
+    return ({long, way})
 }
 
 
-console.log(salesman(getFloydGraph(matrix, 6)))
-console.log(salesman(getFloydGraph(matrix2, 6)))
+
+/*
+0, 2, 10, 3, 15, 8,
+2, 0, 5, 4, 0, 6,
+10, 5, 0, 15, 12, 3,
+5, 0, 15, 0, 5, 10,
+15, 2, 12, 5, 0, 0,
+8, 6, 3, 10, 4, 0, */
+
+
+// console.log(getFloydGraph(matrix, 6))
+// let salesman1 = salesman(getFloydGraph(matrix, 6))
+// console.log(matrix)
+// console.log(salesmanWay(salesman1, matrix))
+
+let salesmann = salesman(matrix)
+console.log(matrix)
+console.log(salesmanWay(salesmann, matrix))
+// let salesman2 = salesman(getFloydGraph(matrix2, 6))
+// console.log(matrix2)
+// console.log(salesmanWay(salesman2, matrix2))
+
